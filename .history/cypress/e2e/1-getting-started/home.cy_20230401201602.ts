@@ -19,7 +19,7 @@ describe('Mostly Mundane Movies', () => {
 		})
 
 		it.skip('should have an empty input field with a placeholder text', () => {
-			cy.get('.form-control')
+			cy.get('.form-control').clear()
 			.should('be.empty')
 			.should('have.attr', 'placeholder', 'Enter movie title')
 
@@ -55,7 +55,7 @@ describe('Mostly Mundane Movies', () => {
 	})
 		context.skip(' Meet requirements for “The Matrix” search', () => {
 
-		it('should give 10 movies', ()=> {
+		it.skip('should give 10 movies', ()=> {
 			cy.get('.form-control').type('The Matrix')
 			cy.get('button[type = "submit"]').click()
 			cy.get('.movie-list').should('be.visible')
@@ -75,17 +75,22 @@ describe('Mostly Mundane Movies', () => {
 		it('should show the correct page when clicked on first matrix -movie', () => {
 			cy.get('.form-control').type('The Matrix')
 			cy.get('button[type ="submit"]').click()
-			cy.get('.movie-list')
-			cy.get('.movie-list-item > :nth-child(1)').should("have.attr", 'data-imdb-id').wait(1000)
-			.then((movieId) => {
-				cy.log(`Got me some movieId: ${movieId}`)
-				cy.get('.movie-list').first()
-				cy.get('a').eq(1).click()
-				cy.location('pathname').should('eq', `/movies/${movieId}`)
-			})
+				cy.get('.movie-list-item')
+				.first()
+				.invoke('attr', 'data-imdb-id')
+				.then((movieId) => {
+					cy.log(`Got me some todoId: ${movieId}`)
 
-		})
+					cy.get('a.card-link')
+						.click()
+
+
+					cy.wait(500)
+
+					cy.location('pathname').should('eq', `/movies/${movieId}`)
+				})
 	})
+		})
 
 
 
@@ -121,7 +126,7 @@ describe('Mostly Mundane Movies', () => {
 		})
 	})
 
-	context('non existing page', () => {
+	context.skip('non existing page', () => {
 		it('should show error if page dosent exist', () => {
 
 		})

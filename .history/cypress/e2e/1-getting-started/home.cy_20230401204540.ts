@@ -76,7 +76,8 @@ describe('Mostly Mundane Movies', () => {
 			cy.get('.form-control').type('The Matrix')
 			cy.get('button[type ="submit"]').click()
 			cy.get('.movie-list')
-			cy.get('.movie-list-item > :nth-child(1)').should("have.attr", 'data-imdb-id').wait(1000)
+			cy.get('.movie-list > :nth-child(1)')
+			cy.get('data-imdb-id').should('exist').wait(1000)
 			.then((movieId) => {
 				cy.log(`Got me some movieId: ${movieId}`)
 				cy.get('.movie-list').first()

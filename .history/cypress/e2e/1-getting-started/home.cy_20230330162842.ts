@@ -40,6 +40,7 @@ describe('Mostly Mundane Movies', () => {
 		it.skip('should not accept less than 3 characters', () => {
 			const minCharacters= [' ','a', 'ab']
 			minCharacters.forEach((search) => {
+				cy.get('.form-control').clear()
 				cy.get('.form-control').type(search)
 				cy.get('button[type = "submit"]').click()
 				cy.get('.fade').should('be.visible').contains('Wow, that was stupid')
@@ -59,7 +60,7 @@ describe('Mostly Mundane Movies', () => {
 			cy.get('.form-control').type('The Matrix')
 			cy.get('button[type = "submit"]').click()
 			cy.get('.movie-list').should('be.visible')
-			cy.get('.movie-list').find('.card > .card-img-top').should('have.length.at.least', 10)
+			cy.get('.movie-list').find('.card > .card-img-top').should('have.length', 10)
 		})
 	})
 
@@ -71,23 +72,15 @@ describe('Mostly Mundane Movies', () => {
 		})
 	})
 
-	context.only('Correct movie id', () => {
+	context.skip('Correct movie id', () => {
 		it('should show the correct page when clicked on first matrix -movie', () => {
 			cy.get('.form-control').type('The Matrix')
 			cy.get('button[type ="submit"]').click()
 			cy.get('.movie-list')
-			cy.get('.movie-list-item > :nth-child(1)').should("have.attr", 'data-imdb-id').wait(1000)
-			.then((movieId) => {
-				cy.log(`Got me some movieId: ${movieId}`)
-				cy.get('.movie-list').first()
-				cy.get('a').eq(1).click()
-				cy.location('pathname').should('eq', `/movies/${movieId}`)
-			})
-
+			cy.get(':nth-child(1) > .card > .card-body > .card-link').click()
+			cy.location('pathname').should('equal', '/movies/tt0133093')
 		})
 	})
-
-
 
 
 	context.skip('Isaks memes', () => {
@@ -104,7 +97,7 @@ describe('Mostly Mundane Movies', () => {
 
 	//todos.find.should
 
-	context.skip('Postman request ', () => {
+	context('Postman request ', () => {
 		it('should give a timeout', {defaultCommandTimeout: 6000},() => {
 			cy.get('.form-control').type('the postman always rings twice')
 			cy.get('button[type ="submit"]').click()
@@ -114,15 +107,12 @@ describe('Mostly Mundane Movies', () => {
 
 	})
 
-	context.skip('tt1337', () => {
-		it('tt1337 in search path should show error-message', () => {
-			cy.visit('/tt1337')
-			cy.get('.fade').should('be.visible').contains("It's not us, it's you")
-		})
-	})
-
-	context('non existing page', () => {
-		it('should show error if page dosent exist', () => {
+	context('tt1337', () => {
+			it('should show error-message', () => {
+			cy.get('.form-control').type('tt1337')
+			cy.get('button[type ="submit"]').click()
+			cy.get('.movie-list').should('not.exist')
+			cy.get('.fade').should('be.visible').contains('Movie not found!')
 
 		})
 	})
@@ -131,6 +121,7 @@ describe('Mostly Mundane Movies', () => {
 
 
 
+//Om man går in på sökvägen för filmen med id tt1337 ska ett felmeddelande visas
 
 //Om man går in på en sida som inte finns ska ett felmeddelande visas
 

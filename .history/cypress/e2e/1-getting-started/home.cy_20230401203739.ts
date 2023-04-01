@@ -75,15 +75,16 @@ describe('Mostly Mundane Movies', () => {
 		it('should show the correct page when clicked on first matrix -movie', () => {
 			cy.get('.form-control').type('The Matrix')
 			cy.get('button[type ="submit"]').click()
-			cy.get('.movie-list')
-			cy.get('.movie-list-item > :nth-child(1)').should("have.attr", 'data-imdb-id').wait(1000)
-			.then((movieId) => {
+			cy.get('.movie-list').first()
+			cy.get('[data-imdb-id').then(($el) =>   const movieId = $el.attr('data-imdb-id');
+      expect(movieId).to.equal('tt0133093');)
+			/* .then((movieId) => {
 				cy.log(`Got me some movieId: ${movieId}`)
 				cy.get('.movie-list').first()
 				cy.get('a').eq(1).click()
 				cy.location('pathname').should('eq', `/movies/${movieId}`)
 			})
-
+ */
 		})
 	})
 

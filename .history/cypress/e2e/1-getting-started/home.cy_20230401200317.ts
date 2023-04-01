@@ -71,23 +71,30 @@ describe('Mostly Mundane Movies', () => {
 		})
 	})
 
-	context.only('Correct movie id', () => {
+	context.skip('Correct movie id', () => {
 		it('should show the correct page when clicked on first matrix -movie', () => {
 			cy.get('.form-control').type('The Matrix')
 			cy.get('button[type ="submit"]').click()
 			cy.get('.movie-list')
-			cy.get('.movie-list-item > :nth-child(1)').should("have.attr", 'data-imdb-id').wait(1000)
-			.then((movieId) => {
-				cy.log(`Got me some movieId: ${movieId}`)
-				cy.get('.movie-list').first()
-				cy.get('a').eq(1).click()
-				cy.location('pathname').should('eq', `/movies/${movieId}`)
-			})
-
+			cy.get(':nth-child(1) > .card > .card-body > .card-link').click()
+			cy.location('pathname').should('equal', '/movies/tt0133093')
 		})
+
+			cy.get('.movie-list')
+				.first()
+				.invoke('attr', 'data-imdb-id')
+				.then((movieId) => {
+					cy.log(`Got me some todoId: ${movieId}`)
+
+					cy.get('.todo-list-item')
+						.first()
+						.click()
+
+					cy.wait(500)
+
+					cy.location('pathname').should('eq', `/todos/${movieId}`)
+				})
 	})
-
-
 
 
 	context.skip('Isaks memes', () => {
