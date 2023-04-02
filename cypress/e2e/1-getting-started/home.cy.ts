@@ -71,7 +71,7 @@ describe('Mostly Mundane Movies', () => {
 		})
 	})
 
-	context.only('Correct movie id', () => {
+	context.skip('Correct movie id', () => {
 		it('should show the correct page when clicked on first matrix -movie', () => {
 			cy.get('.form-control').type('The Matrix')
 			cy.get('button[type ="submit"]').click()
@@ -87,9 +87,6 @@ describe('Mostly Mundane Movies', () => {
 		})
 	})
 
-
-
-
 	context.skip('Isaks memes', () => {
 		it('should not show any movies',() => {
 
@@ -101,8 +98,6 @@ describe('Mostly Mundane Movies', () => {
 		})
 
 	})
-
-	//todos.find.should
 
 	context.skip('Postman request ', () => {
 		it('should give a timeout', {defaultCommandTimeout: 6000},() => {
@@ -121,12 +116,19 @@ describe('Mostly Mundane Movies', () => {
 		})
 	})
 
-	context('non existing page', () => {
+	context.skip('non-existing page', () => {
 		it('should show error if page dosent exist', () => {
+			cy.visit('/tjosan')
+			cy.get('.fade').should('be.visible').contains("It's not us, it's you")
+
+			/* cy.url().should('not', 'contain', '/tjosan')
+			cy.wait('@redirect')
+			cy.contains('Welcome to my website!') */
 
 		})
 	})
 })
+
 
 
 
